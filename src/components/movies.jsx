@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
-import FavIcon from "../shared/favIcon";
+import FavouriteIcon from "../shared/favouriteIcon";
 
 class Movies extends Component {
   state = {
@@ -16,6 +16,14 @@ class Movies extends Component {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
     this.setState({ movies: movies });
   }
+
+  handleFavourite = movie => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].isFavourite = !movies[index].isFavourite;
+    this.setState({ movies });
+  };
 
   render() {
     const { length: countMovies } = this.state.movies;
@@ -42,7 +50,12 @@ class Movies extends Component {
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
                 <td>
-                  <FavIcon />
+                  <FavouriteIcon
+                    movie={movie}
+                    isFavourite={movie.isFavourite}
+                    onFavourite={this.handleFavourite}
+                    //onFavourite={() => this.handleFavourite(movie)}
+                  />
                 </td>
                 <td>
                   <button
