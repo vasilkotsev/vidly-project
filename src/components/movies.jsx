@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import FavouriteIcon from "../shared/favouriteIcon";
+import Pagination from "../shared/pagination";
 
 class Movies extends Component {
   state = {
-    movies: getMovies()
+    movies: getMovies(),
+    pageSize: 4
   };
 
   constructor() {
@@ -25,9 +27,15 @@ class Movies extends Component {
     this.setState({ movies });
   };
 
+  handlePageChange = page => {
+    console.log(page);
+  };
+
   render() {
     const { length: countMovies } = this.state.movies;
     if (countMovies === 0) return <p>There is no movies in the database</p>;
+    console.log(this.state.movies.length);
+    console.log(this.state.pageSize);
     return (
       <React.Fragment>
         <p>There is {countMovies} in the database</p>
@@ -53,8 +61,8 @@ class Movies extends Component {
                   <FavouriteIcon
                     movie={movie}
                     isFavourite={movie.isFavourite}
-                    onFavourite={this.handleFavourite}
-                    //onFavourite={() => this.handleFavourite(movie)}
+                    //onClick={this.handleFavourite}
+                    onClick={() => this.handleFavourite(movie)}
                   />
                 </td>
                 <td>
@@ -71,6 +79,11 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={countMovies}
+          pageSize={this.state.pageSize}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }

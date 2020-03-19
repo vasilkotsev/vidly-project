@@ -9,8 +9,8 @@ const FavouriteIcon = props => {
 
   return (
     <i
-      onClick={() => props.onFavourite(props.movie)}
-      //onClick={props.onFavourite}
+      //onClick={() => props.onClick(props.movie)}
+      onClick={props.onClick}
       className={getIconClasses()}
       aria-hidden="true"
     />
