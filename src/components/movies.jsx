@@ -64,7 +64,7 @@ class Movies extends Component {
                 <td>{movie.dailyRentalRate}</td>
                 <td>
                   <FavouriteIcon
-                    movie={movie}
+                    //movie={movie}
                     isFavourite={movie.isFavourite}
                     //onClick={this.handleFavourite}
                     onClick={() => this.handleFavourite(movie)}
