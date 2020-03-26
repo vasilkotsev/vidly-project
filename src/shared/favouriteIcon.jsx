@@ -2,8 +2,8 @@ import React from "react";
 
 const FavouriteIcon = props => {
   function getIconClasses() {
-    let classes = "fa fa-";
-    classes += props.isFavourite ? "heart" : "heart-o";
+    let classes = "fa fa-heart";
+    classes += props.isFavourite ? "" : "-o";
     return classes;
   }
 
