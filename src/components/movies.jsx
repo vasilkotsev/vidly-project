@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import ListGroup from "../shared/listGroup";
 import Pagination from "../shared/pagination";
-import FavouriteIcon from "../shared/favouriteIcon";
 import paginate from "../utils/paginate";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
+import MoviesTable from "./moviesTabel";
 
 class Movies extends Component {
   state = {
@@ -73,67 +73,30 @@ class Movies extends Component {
     const movies = paginate(filteredMovies, currentPage, itemsPerPage);
 
     return (
-      <React.Fragment>
-        <div className="row">
-          <div className="col-md-3">
-            <ListGroup
-              selectedItem={selectedGenre}
-              items={genres}
-              onItemSelect={this.handleGenresSelect}
-            />
-          </div>
-          <div className="col-md">
-            {" "}
-            <p>There is {filteredMovies.length} in the database</p>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Genre</th>
-                  <th>Stock</th>
-                  <th>Rate</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {movies.map(movie => (
-                  <tr key={movie._id}>
-                    <td>{movie.title}</td>
-                    <td>{movie.genre.name}</td>
-                    <td>{movie.numberInStock}</td>
-                    <td>{movie.dailyRentalRate}</td>
-                    <td>
-                      <FavouriteIcon
-                        //movie={movie}
-                        isFavourite={movie.isFavourite}
-                        //onClick={this.handleFavourite}
-                        onClick={() => this.handleFavourite(movie)}
-                      />
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-small"
-                        onClick={function() {
-                          return this.handleDelete(movie);
-                        }.bind(this)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <Pagination
-              itemsCount={filteredMovies.length}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-              onPageChange={this.handlePageChange}
-            />
-          </div>
+      <div className="row">
+        <div className="col-md-3">
+          <ListGroup
+            selectedItem={selectedGenre}
+            items={genres}
+            onItemSelect={this.handleGenresSelect}
+          />
         </div>
-      </React.Fragment>
+        <div className="col-md">
+          {" "}
+          <p>There is {filteredMovies.length} in the database</p>
+          <MoviesTable
+            movies={movies}
+            onDelete={this.handleDelete}
+            onFavourite={this.handleFavourite}
+          />
+          <Pagination
+            itemsCount={filteredMovies.length}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
+      </div>
     );
   }
 }
