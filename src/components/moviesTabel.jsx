@@ -2,15 +2,15 @@ import React from "react";
 import FavouriteIcon from "../shared/favouriteIcon";
 
 const MoviesTable = props => {
-  const { movies, onDelete, onFavourite } = props;
+  const { movies, onDelete, onFavourite, onSort } = props;
   return (
     <table className="table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Genre</th>
-          <th>Stock</th>
-          <th>Rate</th>
+          <th onClick={() => onSort("title")}>Title</th>
+          <th onClick={() => onSort("genre.name")}>Genre</th>
+          <th onClick={() => onSort("stock")}>Stock</th>
+          <th onClick={() => onSort("rate")}>Rate</th>
           <th></th>
           <th></th>
         </tr>
