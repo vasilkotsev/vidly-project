@@ -1,19 +1,16 @@
 import React from "react";
 
 const FavouriteIcon = props => {
+  const { onClick, isFavourite } = props;
+
   function getIconClasses() {
     let classes = "fa fa-heart";
-    classes += props.isFavourite ? "" : "-o";
+    classes += isFavourite ? "" : "-o";
     return classes;
   }
 
   return (
-    <i
-      //onClick={() => props.onClick(props.movie)}
-      onClick={props.onClick}
-      className={getIconClasses()}
-      aria-hidden="true"
-    />
+    <i onClick={onClick} className={getIconClasses()} aria-hidden="true" />
   );
 };
 
