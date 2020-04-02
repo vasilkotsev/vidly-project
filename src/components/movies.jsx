@@ -4,7 +4,7 @@ import Pagination from "../shared/pagination";
 import paginate from "../utils/paginate";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
-import MoviesTable from "./moviesTabel";
+import MoviesTable from "./moviesTable";
 import _ from "lodash";
 
 class Movies extends Component {
