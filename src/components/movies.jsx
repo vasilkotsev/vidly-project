@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ListGroup from "../shared/listGroup";
-import Pagination from "../shared/pagination";
+import ListGroup from "../common/listGroup";
+import Pagination from "../common/pagination";
 import paginate from "../utils/paginate";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
