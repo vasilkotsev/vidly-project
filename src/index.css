@@ -13,6 +13,7 @@ code {
     monospace;
 }
 
-.fa {
+.fa,
+.clickable {
   cursor: pointer;
 }
