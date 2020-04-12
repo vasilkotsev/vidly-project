@@ -45,7 +45,6 @@ class Movies extends Component {
   };
 
   handleGenresSelect = genre => {
-    console.log(genre._id);
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
@@ -55,6 +54,7 @@ class Movies extends Component {
 
   render() {
     const { length: countMovies } = this.state.movies;
+
     const {
       itemsPerPage,
       currentPage,
@@ -66,16 +66,16 @@ class Movies extends Component {
 
     if (countMovies === 0) return <p>There is no movies in the database</p>;
 
-    const filteredMovies = selectedGenre
-      ? allMovies.filter(m => m.genre._id === selectedGenre._id)
-      : allMovies;
+    const filteredMovies =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter(m => m.genre._id === selectedGenre._id)
+        : allMovies;
 
     // let filteredMovies = allMovies;
-    // if (selectedGenre) {
-    //   filteredMovies = allMovies.filter(
-    //     m => m.genre._id === selectedGenre._id
-    //   );
+    // if (selectedGenre && selectedGenre._id) {
+    //   filteredMovies = allMovies.filter(m => m.genre._id === selectedGenre._id);
     // }
+
     const sortedMovies = _.orderBy(
       filteredMovies,
       [sortColumn.path],
