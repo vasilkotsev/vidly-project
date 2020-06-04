@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ListGroup from "../common/listGroup";
-import Pagination from "../common/pagination";
+import ListGroup from "./common/listGroup";
+import Pagination from "./common/pagination";
 import paginate from "../utils/paginate";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
@@ -89,7 +89,7 @@ class Movies extends Component {
 
     if (countMovies === 0) return <p>There is no movies in the database</p>;
 
-    const {totalCount, data: movies} = this.getPagedData();
+    const { totalCount, data: movies } = this.getPagedData();
 
     return (
       <div className="row">
