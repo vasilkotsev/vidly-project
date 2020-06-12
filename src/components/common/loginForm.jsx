@@ -16,15 +16,14 @@ class LoginForm extends React.Component {
     if (account.password.trim() === "")
       errors.password = "Password is required";
 
-    return Object.keys(errors).length === 0 ? null : errors)
+    return Object.keys(errors).length === 0 ? null : errors;
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate();
 
-    console.log(errors);
-    this.setState({ errors: errors });
+    this.setState({ errors: errors || {} });
     if (errors) return;
 
     //call the server and redirect to other page
@@ -38,7 +37,7 @@ class LoginForm extends React.Component {
   };
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <React.Fragment>
         <h1>Login</h1>
@@ -48,12 +47,14 @@ class LoginForm extends React.Component {
             name="username"
             value={account.username}
             onChange={this.handleChange}
+            errors={errors.username}
           />
           <Input
             label="Password"
             name="password"
             value={account.password}
             onChange={this.handleChange}
+            errors={errors.password}
           />
           <button className="btn btn-primary">Login</button>
         </form>
