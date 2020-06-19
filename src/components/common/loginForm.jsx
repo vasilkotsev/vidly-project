@@ -32,6 +32,17 @@ class LoginForm extends React.Component {
     return errors;
   };
 
+  validateProperty = ({ name, value }) => {
+    const obj = { [name]: value };
+    const schema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, schema);
+
+    return error ? error.details[0].message : null;
+    // return error.details[0].message;
+    // if(!error) return null
+    // return error.details[0].message
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate();
@@ -41,18 +52,6 @@ class LoginForm extends React.Component {
 
     //call the server and redirect to other page
     console.log("Submit");
-  };
-
-  validateProperty = ({ name, value }) => {
-    if (name === "username") {
-      if (value.trim() === "") return "Username is required";
-      // ... other rules
-    }
-
-    if (name === "password") {
-      if (value.trim() === "") return "Password is required";
-      // ... other rules
-    }
   };
 
   handleChange = ({ currentTarget: input }) => {
