@@ -28,6 +28,8 @@ class LoginForm extends React.Component {
     for (let item of error.details) {
       errors[item.path[0]] = item.message;
     }
+    // начин с map()
+    //error.details.map(item => (errors[item.path[0]] = item.message));
 
     return errors;
   };
@@ -38,7 +40,6 @@ class LoginForm extends React.Component {
     const { error } = Joi.validate(obj, schema);
 
     return error ? error.details[0].message : null;
-    // return error.details[0].message;
     // if(!error) return null
     // return error.details[0].message
   };
@@ -85,7 +86,9 @@ class LoginForm extends React.Component {
             onChange={this.handleChange}
             errors={errors.password}
           />
-          <button className="btn btn-primary">Login</button>
+          <button disabled={this.validate()} className="btn btn-primary">
+            Login
+          </button>
         </form>
       </React.Fragment>
     );
