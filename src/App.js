@@ -7,7 +7,7 @@ import NotFound from "./components/notFound";
 import Customers from "./components/customers";
 import NavBar from "./components/navBar";
 import MovieForm from "./components/movieForm";
-import LoginForm from "./components/common/loginForm";
+import LoginForm from "./components/loginForm";
 
 function App() {
   return (
