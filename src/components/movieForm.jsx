@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
-import { getMovie } from "../services/fakeMovieService";
+import { getMovie, saveMovie } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 
 // const handleSave = () => {
@@ -20,7 +20,7 @@ class MovieForm extends Form {
   };
 
   schema = {
-    id: Joi.string(),
+    _id: Joi.string(),
     title: Joi.string()
       .required()
       .label("Title"),
@@ -30,31 +30,56 @@ class MovieForm extends Form {
     numberInStock: Joi.number()
       .required()
       .label("Number in Stock")
-      .integer()
       .min(0)
       .max(100),
     dailyRentalRate: Joi.number()
       .required()
       .label("Daily Rental Rate")
-      .integer()
       .min(0)
       .max(10)
   };
 
   componentDidMount() {
-    // 1.Взимаме данните за жанровете и ги сетване в state object
+    // 1.Взимаме данните за жанровете от фейк services и ги сетваме в state object
     const genres = getGenres();
     this.setState({ genres });
-    console.log(genres);
+
+    // 2. Взимаме id параметъра от route, запазваме го в променлива и правим проверка
+    // - ако стойността е 'new', прекъсваме веднага изпълнението на следващите стъпки,
+    // тъй като няма да попълваме формата с movie обекта
+    const movieId = this.props.match.params.id;
+    if (movieId === "new") return;
+
+    // 3. Взимаме movie-то чрез подаденото id
+    // Ако взетият route параметър не съществува, не съвпада с нито едно movie ot movie service, то редирект-ваме потребителя към page-not-found компонента
+    const movie = getMovie(movieId);
+    if (!movie) return this.props.history.replace("/not-found");
+
+    //4. Ъпдейтваме state object-a, подавайки му данните чрез метод, на който подаваме movie обекта от сървъра
+    // и създаваме и връщаме нов различен обект с необходимите данни, които да използваме за тази страница/форма ,
+    this.setState({ data: this.mapToViewModel(movie) });
   }
+
+  mapToViewModel = movie => {
+    return {
+      _id: movie._id,
+      title: movie.title,
+      genreId: movie.genre._id,
+      numberInStock: movie.numberInStock,
+      dailyRentalRate: movie.dailyRentalRate
+    };
+  };
 
   doSubmit = () => {
     //call the server and redirect to other page
+    saveMovie(this.state.data);
+    this.props.history.push("/movies");
     console.log("Submit Save");
   };
 
   render() {
     const { genres } = this.state;
+    console.log(this.state.data);
     return (
       <React.Fragment>
         <h1>Movie Form</h1>
@@ -64,15 +89,15 @@ class MovieForm extends Form {
             <label htmlFor="genre">Genre</label>
             <select className="form-control" name="genre">
               {genres.map(genre => (
-                <option>{genre.name}</option>
+                <option key={genre._id}>{genre.name}</option>
               ))}
               {/*<option value="Action">{genres[0]}</option>*/}
               {/*<option value="Comedy">{genres[1]}</option>*/}
               {/*<option value="Thriller">{genres[2]}</option>*/}
             </select>
           </div>
-          {this.renderInput("number", "Number in Stock", "number")}
-          {this.renderInput("rate", "Rate", "number")}
+          {this.renderInput("numberInStock", "Number in Stock", "number")}
+          {this.renderInput("dailyRentalRate", "Rate", "number")}
           {this.renderButton("Save")}
         </form>
       </React.Fragment>

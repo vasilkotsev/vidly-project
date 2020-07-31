@@ -38,7 +38,6 @@ class Form extends React.Component {
     if (errors) return;
 
     this.doSubmit();
-    console.log(this);
   };
 
   handleChange = ({ currentTarget: input }) => {

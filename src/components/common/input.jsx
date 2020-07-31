@@ -17,7 +17,6 @@ const Input = ({ name, label, error, ...restProperties }) => {
 };
 
 Input.propTypes = {
-  value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
