@@ -78,23 +78,32 @@ class MovieForm extends Form {
   };
 
   render() {
-    const { genres } = this.state;
-    console.log(this.state.data);
+    const { genres, errors, data } = this.state;
+
     return (
       <React.Fragment>
         <h1>Movie Form</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
           <div className="form-group">
-            <label htmlFor="genre">Genre</label>
-            <select className="form-control" name="genre">
+            <label htmlFor="genreId">Genre</label>
+            <select
+              className="form-control"
+              name="genreId"
+              id="genreId"
+              onChange={this.handleChange}
+              value={data["genreId"]}
+            >
+              <option value={""} />
               {genres.map(genre => (
-                <option key={genre._id}>{genre.name}</option>
+                <option key={genre._id} value={genre._id}>
+                  {genre.name}
+                </option>
               ))}
-              {/*<option value="Action">{genres[0]}</option>*/}
-              {/*<option value="Comedy">{genres[1]}</option>*/}
-              {/*<option value="Thriller">{genres[2]}</option>*/}
             </select>
+            {errors["genreId"] && (
+              <div className="alert alert-danger">{errors["genreId"]}</div>
+            )}
           </div>
           {this.renderInput("numberInStock", "Number in Stock", "number")}
           {this.renderInput("dailyRentalRate", "Rate", "number")}

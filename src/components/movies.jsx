@@ -4,6 +4,7 @@ import Pagination from "./common/pagination";
 import paginate from "../utils/paginate";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
+import { deleteMovie } from "../services/fakeMovieService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
@@ -31,6 +32,7 @@ class Movies extends Component {
   handleDelete(movie) {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
     this.setState({ movies: movies });
+    deleteMovie(movie._id);
   }
 
   handleFavourite = movie => {
