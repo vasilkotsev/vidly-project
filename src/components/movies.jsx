@@ -37,24 +37,35 @@ class Movies extends Component {
     deleteMovie(movie._id);
   }
 
-  handleFavourite = movie => {
-    const movies = [...this.state.movies];
-    const index = movies.indexOf(movie);
-    movies[index] = { ...movies[index] };
-    movies[index].isFavourite = !movies[index].isFavourite;
-    this.setState({ movies });
-  };
+  handleFavourite = function(movie) {
+    this.setState(function(prevState) {
+      const movies = [...prevState.movies];
+      const index = movies.findIndex(m => m._id === movie._id);
+      movies[index] = { ...movie };
+      movies[index].isFavourite = !movies[index].isFavourite;
+      return { movies };
+    });
+    //Call the backend server to persist the changes in database
+  }.bind(this);
 
   handlePageChange = page => {
     this.setState({ currentPage: page });
   };
 
   handleGenresSelect = genre => {
-    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
+    this.setState({
+      selectedGenre: genre,
+      searchQuery: "",
+      currentPage: 1
+    });
   };
 
   handleSearch = query => {
-    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
+    this.setState({
+      searchQuery: query,
+      selectedGenre: null,
+      currentPage: 1
+    });
   };
 
   handleSort = sortColumn => {
