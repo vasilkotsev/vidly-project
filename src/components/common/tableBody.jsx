@@ -6,7 +6,7 @@ class TableBody extends Component {
     if (column.content) {
       return column.content(item);
     }
-    return _.get(item, column.path);
+    return _.get(item, column.path); // Lodash method to get dynamic nested object values
   };
 
   createKey = (item, column) => {

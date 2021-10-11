@@ -95,7 +95,7 @@ class Movies extends Component {
       filteredMovies,
       [sortColumn.path],
       [sortColumn.order]
-    );
+    ); // Lodash method to sort array of objects by differents paths
     const movies = paginate(sortedMovies, currentPage, itemsPerPage);
 
     return { totalCount: filteredMovies.length, data: movies };

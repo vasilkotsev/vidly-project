@@ -12,6 +12,12 @@ const Pagination = ({
   if (pagesCount === 1) return null;
   const pages = _.range(1, pagesCount + 1); //lodash method creates array
 
+  // variant without lodash
+  /* const pages = [];
+  for (let page = 1; page <= pagesCount; page++) {
+    pages.push(page);
+  } */
+
   return (
     <nav>
       <ul className="pagination">

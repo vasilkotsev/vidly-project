@@ -8,5 +8,8 @@ export default function paginate(items, currentPage, itemsPerPage) {
     .take(itemsPerPage)
     .value();
 
+  //variant without lodash
+  /* const paginatedItems = items.slice(startIndex, startIndex + itemsPerPage); */
+
   return paginatedItems;
 }
