@@ -25,3 +25,7 @@ code {
 .nav-link.active {
   color: #007bff !important;
 }
+
+.page-item {
+  cursor: pointer;
+}

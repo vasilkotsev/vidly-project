@@ -29,12 +29,14 @@ class Movies extends Component {
   componentDidMount() {
     const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
     this.setState({ movies: getMovies(), genres });
+    console.log("DidMountMovies + ajaxcall");
   }
 
   handleDelete(movie) {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
     this.setState({ movies: movies });
-    deleteMovie(movie._id);
+
+    deleteMovie(movie._id); //call the server
   }
 
   handleFavourite = function(movie) {
@@ -45,7 +47,7 @@ class Movies extends Component {
       movies[index].isFavourite = !movies[index].isFavourite;
       return { movies };
     });
-    //Call the backend server to persist the changes in database
+    //Call the backend server /somewhere in this method/ to persist the changes in database
   }.bind(this);
 
   handlePageChange = page => {
@@ -103,7 +105,6 @@ class Movies extends Component {
 
   render() {
     const { length: countMovies } = this.state.movies;
-
     const {
       itemsPerPage,
       currentPage,

@@ -41,7 +41,7 @@ class MovieForm extends Form {
 
   componentDidMount() {
     // 1.Взимаме данните за жанровете от фейк services и ги сетваме в state object
-    const genres = getGenres();
+    const genres = getGenres(); //Call backend
     this.setState({ genres });
 
     // 2. Взимаме id параметъра от route, запазваме го в променлива и правим проверка
@@ -52,7 +52,7 @@ class MovieForm extends Form {
 
     // 3. Взимаме movie-то чрез подаденото id
     // Ако взетият route параметър не съществува, не съвпада с нито едно movie ot movie service, то редирект-ваме потребителя към page-not-found компонента
-    const movie = getMovie(movieId);
+    const movie = getMovie(movieId); //Call backend
     if (!movie) return this.props.history.replace("/not-found");
 
     //4. Ъпдейтваме state object-a, подавайки му данните чрез метод, на който подаваме movie обекта от сървъра
