@@ -1,16 +1,8 @@
 import React from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
-
-// const handleSave = () => {
-//   history.push("/movies");
-// };
-
-// function handleSave() {
-//   return history.push("/movies");
-// }
+import { getGenres } from "../services/genreService";
+import { getMovie, saveMovie } from "../services/movieService";
 
 class MovieForm extends Form {
   state = {
@@ -39,25 +31,37 @@ class MovieForm extends Form {
       .max(10)
   };
 
-  componentDidMount() {
-    // 1.Взимаме данните за жанровете от фейк services и ги сетваме в state object
-    const genres = getGenres(); //Call backend
+  populateGenres = async () => {
+    // Правим Get заявка, взимаме данните за жанровете ги сетваме в state object
+    const { data: genres } = await getGenres(); //Call backend
     this.setState({ genres });
+  };
 
-    // 2. Взимаме id параметъра от route, запазваме го в променлива и правим проверка
-    // - ако стойността е 'new', прекъсваме веднага изпълнението на следващите стъпки,
-    // тъй като няма да попълваме формата с movie обекта
-    const movieId = this.props.match.params.id;
-    if (movieId === "new") return;
+  populateMovie = async () => {
+    try {
+      /* Взимаме id параметъра от route, запазваме го в променлива и правим проверка
+        ако стойността е 'new', прекъсваме веднага изпълнението на следващите стъпки,
+        тъй като няма да попълваме формата с movie обекта */
+      const movieId = this.props.match.params.id;
+      if (movieId === "new") return;
 
-    // 3. Взимаме movie-то чрез подаденото id
-    // Ако взетият route параметър не съществува, не съвпада с нито едно movie ot movie service, то редирект-ваме потребителя към page-not-found компонента
-    const movie = getMovie(movieId); //Call backend
-    if (!movie) return this.props.history.replace("/not-found");
+      /* Правим get заявка към endpointa с id-то за конкретния филм */
+      const { data: movie } = await getMovie(movieId); //Call backend
 
-    //4. Ъпдейтваме state object-a, подавайки му данните чрез метод, на който подаваме movie обекта от сървъра
-    // и създаваме и връщаме нов различен обект с необходимите данни, които да използваме за тази страница/форма ,
-    this.setState({ data: this.mapToViewModel(movie) });
+      /* Ъпдейтваме state object-a, подавайки му данните чрез метод, на който подаваме movie обекта от сървъра
+        и създаваме и връщаме нов различен обект с необходимите данни, които да използваме за тази страница/форма */
+      this.setState({ data: this.mapToViewModel(movie) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        /* Ако url с id-ито не съвпада с нито едно movie от базата данни,
+        responsa е 404 error и редирект-ваме потребителя към page-not-found */
+        this.props.history.replace("/not-found");
+    }
+  };
+
+  async componentDidMount() {
+    await this.populateGenres();
+    await this.populateMovie();
   }
 
   mapToViewModel = movie => {
@@ -70,11 +74,9 @@ class MovieForm extends Form {
     };
   };
 
-  doSubmit = () => {
-    //call the server and redirect to other page
-    saveMovie(this.state.data);
+  doSubmit = async () => {
+    await saveMovie(this.state.data); //call the server and redirect to other page
     this.props.history.push("/movies");
-    console.log("Submit Save");
   };
 
   render() {
